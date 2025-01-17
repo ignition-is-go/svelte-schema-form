@@ -1,18 +1,21 @@
 <script lang="ts">
-	import type { CommonComponentParameters } from "./types/CommonComponentParameters";
-	import { editorForSchema } from "./types/schema";
-	export let params: CommonComponentParameters;
-	export let schema: any;
-	export let value: any;
-	let { components } = params;
+  import type { CommonComponentParameters } from './types/CommonComponentParameters'
+  import { editorForSchema } from './types/schema'
+  interface Props {
+    params: CommonComponentParameters
+    schema: any
+    value: any
+  }
 
-	let typeComponent: any;
-	
-	let component: new (...args: any[]) => any;
-	$: component = components[editorForSchema(schema)];
+  let { params, schema = $bindable(), value }: Props = $props()
+  let components = $derived(params.components)
+  let pathComponents = $derived(params.pathComponents)
+  let path = $derived(params.path)
+  let typeComponent: any
+
+  let Component: new (...args: any[]) => any = $derived(
+    pathComponents?.[path.join('.')] ?? components[editorForSchema(schema)],
+  )
 </script>
 
-<svelte:component this={component} {params} {value} bind:schema />
-
-
-
+<Component {params} {value} bind:schema></Component>

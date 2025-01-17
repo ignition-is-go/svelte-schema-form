@@ -1,28 +1,37 @@
-export type ValidationErrors = Record<string, string>;
+export type ValidationErrors = Record<string, string>
 
-export const FileNone = Symbol();
-export const ProgressContext = Symbol();
+export const FileNone = Symbol()
+export const ProgressContext = Symbol()
 
 export interface CommonComponentParameters {
-	path: string[];
-	pathChanged: (path: string[], val: any, op?: string, subPath?: string) => boolean,
-	components: Record<string, new (...args: any[]) => any>,
-	componentContext?: Record<string, unknown>,
-	value: any,
-	validationErrors: ValidationErrors,
-	required?: boolean,
-	containerParent: "none" | "array" | "object",
-	containerReadOnly: boolean,
-	showErrors: boolean,
-	collapsible: boolean,
-	idx: number
+  path: string[]
+  pathChanged: (
+    path: string[],
+    val: any,
+    op?: string,
+    subPath?: string,
+  ) => boolean
+  components: Record<string, new (...args: any[]) => any>
+  pathComponents?: Record<string, new (...args: any[]) => any>
+  componentContext?: Record<string, unknown>
+  value: any
+  validationErrors: ValidationErrors
+  required?: boolean
+  containerParent: 'none' | 'array' | 'object'
+  containerReadOnly: boolean
+  showErrors: boolean
+  collapsible: boolean
+  idx: number
 }
 
-export const childComponentParameters = (params: CommonComponentParameters, propName: string) => {
-	return {
-		...params,
-		path: [ ...params.path, propName ]
-	};
+export const childComponentParameters = (
+  params: CommonComponentParameters,
+  propName: string,
+) => {
+  return {
+    ...params,
+    path: [...params.path, propName],
+  }
 }
 
 /*
