@@ -57,9 +57,21 @@
     )
   }
 
-  onMount(() => {
-    revalidate()
-    if (Object.keys(validationErrors).length > 0) {
+  // onMount(() => {
+  //   revalidate()
+  //   if (Object.keys(validationErrors).length > 0) {
+  //     // set initial errors
+  //     dispatch('value', {
+  //       path: [],
+  //       value,
+  //       errors: validationErrors,
+  //     })
+  //   }
+  // })
+
+  $: {
+    if (value && schema) {
+      revalidate()
       // set initial errors
       dispatch('value', {
         path: [],
@@ -67,7 +79,7 @@
         errors: validationErrors,
       })
     }
-  })
+  }
 
   let params: CommonComponentParameters
   $: params = {
